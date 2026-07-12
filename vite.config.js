@@ -4,12 +4,15 @@ import injectHTML from 'vite-plugin-html-inject';
 import FullReload from 'vite-plugin-full-reload';
 import SortCss from 'postcss-sort-media-queries';
 
+const isVercel = process.env.VERCEL === 'true';
+
 export default defineConfig(({ command }) => {
   return {
     define: {
       [command === 'serve' ? 'global' : '_global']: {},
     },
     root: './',
+    base: isVercel ? '/' : '/vanilla-app-template/',
     build: {
       sourcemap: true,
       rollupOptions: {
@@ -39,7 +42,7 @@ export default defineConfig(({ command }) => {
     },
     plugins: [
       injectHTML(),
-      FullReload(['.//*.html']),
+      FullReload(['./*.html']),
       SortCss({
         sort: 'mobile-first',
       }),
