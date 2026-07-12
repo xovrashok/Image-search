@@ -39,7 +39,7 @@ export default defineConfig(({ command }) => {
     },
     plugins: [
       injectHTML(),
-      FullReload(['.//**.html']),
+      FullReload(['.//*.html']),
       SortCss({
         sort: 'mobile-first',
       }),
