@@ -1,4 +1,5 @@
 Image Search Application
+
 A modern, responsive web application for searching and viewing high-quality images using the Pixabay API. Built with vanilla JavaScript and bundled with Vite.
 
 🚀 Features
@@ -23,4 +24,4 @@ HTTP Client: Axios
 
 UI/UX Components: SimpleLightbox, iziToast, pure-css-loader
 
-🔗 Live Page Link
+🔗 (Live Page Link)
