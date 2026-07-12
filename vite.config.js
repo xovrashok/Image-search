@@ -27,7 +27,7 @@ export default defineConfig(({ command }) => {
             if (chunkInfo.name === 'commonHelpers') {
               return 'commonHelpers.js';
             }
-            return '[name].js';
+            return 'assets/[name]-[hash].js';
           },
           assetFileNames: assetInfo => {
             if (assetInfo.name && assetInfo.name.endsWith('.html')) {
