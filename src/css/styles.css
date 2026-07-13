@@ -1,4 +1,6 @@
-:root {
+:root,
+[data-theme='light'] {
+  --bg-color: #fcfcfc;
   --primary-color: #4e75ff;
   --primary-hover-color: #6c8cff;
   --border-color: #e0e0e0;
@@ -6,6 +8,22 @@
   --text-secondary: #808080;
   --text-white: white;
   --border-hover-color: #000000;
+  --bg-img: url('https://img.icons8.com/?size=100&id=9313&format=png&color=000000');
+  --switch-bg: #e0e0e0;
+}
+
+[data-theme='dark'] {
+  --bg-color: #1a1a1a;
+
+  --primary-color: #4e75ff;
+  --primary-hover-color: #6c8cff;
+  --border-color: #777777;
+  --text-main: #bebec0;
+  --text-secondary: #e2e2e2;
+  --text-white: #000000;
+  --border-hover-color: #ffffff;
+  --bg-img: url('https://img.icons8.com/?size=100&id=59841&format=png&color=000000');
+  --switch-bg: #3a3a3a;
 }
 
 *,
@@ -28,7 +46,71 @@ body {
     'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
-  background-color: #fcfcfc;
+  background-color: var(--bg-color);
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+  left: 93%;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  border-radius: 34px;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--switch-bg);
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  border-radius: 34px;
+}
+
+.slider:before {
+  position: absolute;
+  content: '';
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: rgb(250, 250, 250);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  background-image: var(--bg-img);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  -webkit-transition: 0.4s;
+  transition: 0.3s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: var(--primary-color);
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 4px var(--primary-color);
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+.slider.round:before {
+  border-radius: 50%;
 }
 
 form {
@@ -109,6 +191,11 @@ button:hover {
   padding: 0 0 5px;
 }
 
+.info-value,
+.info-title {
+  color: var(--text-main);
+}
+
 .loader {
   margin: 20px auto;
   display: none;
@@ -121,4 +208,24 @@ button:hover {
 .fetchPostsBtn {
   display: none;
   margin: 0 auto;
+}
+
+.up-btn {
+  border-radius: 50%;
+  padding: 7px;
+  position: fixed;
+  right: 50px;
+  bottom: 10px;
+  opacity: 0;
+  pointer-events: none;
+  box-shadow: 0 0 4px var(--primary-color);
+}
+
+.up-btn img {
+  width: 25px;
+}
+
+.up-btn.is-visible {
+  opacity: 1;
+  pointer-events: visible;
 }
