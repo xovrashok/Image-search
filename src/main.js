@@ -12,18 +12,22 @@ import 'pure-css-loader/dist/css-loader.css';
 const form = document.querySelector('.form');
 const gallery = document.querySelector('.gallery');
 const loader = document.querySelector('.loader');
+const fetchPostsBtn = document.querySelector('.fetchPostsBtn');
+
+let page = 1;
+let perPage = 15;
+let query = '';
 
 form.addEventListener('submit', async e => {
   e.preventDefault();
   clearGallery(gallery);
 
   const formData = new FormData(e.currentTarget);
-
-  const text = formData.get('search-text').trim();
+  query = formData.get('search-text').trim();
 
   e.currentTarget.reset();
 
-  if (text === '') {
+  if (query === '') {
     iziToast.warning({
       title: 'Caution',
       message: 'Search field cannot be empty!',
@@ -32,12 +36,17 @@ form.addEventListener('submit', async e => {
     return;
   }
 
+  clearGallery(gallery);
+  page = 1;
+  fetchPostsBtn.style.display = 'none';
+
+  e.currentTarget.reset();
   showLoader(loader);
 
   try {
-    const images = await getImagesByQuery(text);
+    const data = await getImagesByQuery(query, page, perPage);
 
-    if (!images.length) {
+    if (!data.hits.length) {
       iziToast.warning({
         title: 'Caution',
         message:
@@ -47,7 +56,49 @@ form.addEventListener('submit', async e => {
       return;
     }
 
-    createGallery(images, gallery);
+    createGallery(data.hits, gallery);
+
+    fetchPostsBtn.style.display = 'flex';
+
+    if (data.totalHits > page * perPage) {
+      fetchPostsBtn.style.display = 'flex';
+    }
+  } catch (error) {
+    console.log(error);
+    iziToast.error({ title: 'Error', message: 'Something went wrong!' });
+  } finally {
+    hideLoader(loader);
+  }
+});
+
+fetchPostsBtn.addEventListener('click', async () => {
+  page += 1;
+  showLoader(loader);
+  fetchPostsBtn.style.display = 'none';
+
+  try {
+    const data = await getImagesByQuery(query, page, perPage);
+
+    createGallery(data.hits, gallery);
+
+    const galleryItem = document.querySelector('.gallery-item');
+    if (galleryItem) {
+      const cardHeight = galleryItem.getBoundingClientRect().height;
+
+      window.scrollBy({
+        top: cardHeight * 2,
+        behavior: 'smooth',
+      });
+    }
+
+    if (data.totalHits > page * perPage) {
+      fetchPostsBtn.style.display = 'flex';
+    } else {
+      iziToast.info({
+        message: "We're sorry, but you've reached the end of search results.",
+        position: 'topRight',
+      });
+    }
   } catch (error) {
     console.log(error);
   } finally {

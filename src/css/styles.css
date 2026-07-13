@@ -117,3 +117,8 @@ button:hover {
 .loader.is-active {
   display: block;
 }
+
+.fetchPostsBtn {
+  display: none;
+  margin: 0 auto;
+}
