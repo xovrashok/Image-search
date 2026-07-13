@@ -8,13 +8,13 @@ import {
   createGallery,
 } from './js/render-functions.js';
 import 'pure-css-loader/dist/css-loader.css';
+import './js/theme.js';
+import './js/scroll.js';
 
 const form = document.querySelector('.form');
 const gallery = document.querySelector('.gallery');
 const loader = document.querySelector('.loader');
 const fetchPostsBtn = document.querySelector('.fetchPostsBtn');
-const switcher = document.querySelector('.switch input');
-const upBtn = document.querySelector('.up-btn');
 
 let page = 1;
 let perPage = 15;
@@ -106,46 +106,4 @@ fetchPostsBtn.addEventListener('click', async () => {
   } finally {
     hideLoader(loader);
   }
-});
-
-function getInitialTheme() {
-  const savedTheme = localStorage.getItem('theme');
-  if (savedTheme) return savedTheme;
-
-  const userMedia = window.matchMedia('(prefers-color-scheme: dark)');
-  return userMedia.matches ? 'dark' : 'light';
-}
-
-function setTheme(theme) {
-  document.documentElement.setAttribute('data-theme', theme);
-  localStorage.setItem('theme', theme);
-
-  let switcherInput = document.querySelector('.switch input');
-
-  if (switcherInput) {
-    switcherInput.checked = theme === 'dark';
-  }
-}
-
-let currentTheme = getInitialTheme();
-setTheme(currentTheme);
-
-switcher.addEventListener('change', () => {
-  currentTheme = currentTheme === 'light' ? 'dark' : 'light';
-  setTheme(currentTheme);
-});
-
-window.addEventListener('scroll', () => {
-  if (window.scrollY > 300) {
-    upBtn.classList.add('is-visible');
-  } else {
-    upBtn.classList.remove('is-visible');
-  }
-});
-
-upBtn.addEventListener('click', () => {
-  window.scrollTo({
-    top: 0,
-    behavior: 'smooth',
-  });
 });
