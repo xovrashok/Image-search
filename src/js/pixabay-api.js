@@ -16,12 +16,4 @@ export async function getImagesByQuery(query, page, perPage) {
   });
 
   return response.data;
-  // } catch (error) {
-  //   iziToast.error({
-  //     title: 'Error',
-  //     message: 'Something went wrong. Please try again later.',
-  //     position: 'topRight',
-  //   });
-  //   console.error(error);
-  // }
 }
